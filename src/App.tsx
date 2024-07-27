@@ -4,6 +4,8 @@ import { Resume } from './components/Resume'
 import { Title } from './components/Title'
 import { Welcome } from './components/Welcome'
 import { Cashflow } from './components/Cashflow'
+import { ExpenseCategory } from './components/ExpenseCategory'
+import { Footer } from './components/Footer'
 
 
 export function App() {
@@ -19,21 +21,24 @@ export function App() {
               <Resume />
               <InputsOutputs />
               <Cashflow />
+              <ExpenseCategory />
             </div>
 
-            <div className="lg:grid lg:grid-cols-5 lg:gap-4 hidden">
-              <div className="lg:col-span-3 flex flex-col space-y-4">
+            <div className="lg:grid lg:grid-cols-8 lg:gap-4 hidden">
+              <div className="lg:col-span-5 flex flex-col space-y-4">
                 <InputsOutputs />
                 <Cashflow />
               </div>
               <div className="lg:col-span-2">
                 <Resume />
+                <ExpenseCategory />
               </div>
             </div>
 
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }
