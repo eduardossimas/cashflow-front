@@ -59,7 +59,7 @@ export function InputsOutputs() {
   const data = getChartData();
 
   return (
-    <div className="p-6 rounded-lg bg-white shadow-xl mt-8 lg:mt-0 lg:ml-12 w-full">
+    <div className="p-6 rounded-lg bg-white shadow-xl w-full">
       <div className="flex flex-col mb-4">
         <div className="flex items-center justify-between">
           <h5>Entradas e Saídas</h5>
