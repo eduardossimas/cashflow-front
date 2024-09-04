@@ -12,18 +12,20 @@ export function Header() {
         setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleButtonClick = (buttonName : string): void => {
+    const handleButtonClick = (buttonName: string): void => {
+        toggleMenu(); // Fecha o menu ao clicar em um botão
         setActiveButton(buttonName); // Atualiza o estado do botão ativo
     };
 
     const buttonBaseClass = 'flex items-center justify-start pt-3 pb-3 pr-5 pl-5 rounded-l-lg';
+    const buttonMobileClass = 'flex items-center justify-center py-3 text-gray-800'; // Estilo simplificado para mobile
 
     return (
         <header className='top-0 left-0'>
             <div className='flex items-center'>
                 <div className='flex'>
                     {!isMenuOpen && (
-                        <div className='lg:hidden rounded-lg bg-white shadow-xl p-3'>
+                        <div className='lg:hidden p-3'>
                             <button
                                 onClick={toggleMenu}
                                 className='text-gray-800 hover:text-gray-600 focus:outline-none'
@@ -73,6 +75,37 @@ export function Header() {
                     </Link>
                 </div>
             </div>
+
+            {isMenuOpen && (
+                <div className="fixed top-0 left-0 w-full bg-white shadow-lg lg:hidden">
+                    <div className="flex flex-col gap-4 justify-center items-center space-x-4 py-4">
+                        <Link to="/" onClick={() => handleButtonClick('Dashboard')} className={buttonMobileClass}>
+                            <FontAwesomeIcon icon={faTableColumns} />
+                            <span className='ml-2'>Dashboard</span>
+                        </Link>
+
+                        <Link to="/transactions" onClick={() => handleButtonClick('Transações')} className={buttonMobileClass}>
+                            <FontAwesomeIcon icon={faDollarSign} />
+                            <span className='ml-2'>Transações</span>
+                        </Link>
+
+                        <Link to="/banks" onClick={() => handleButtonClick('Bancos')} className={buttonMobileClass}>
+                            <FontAwesomeIcon icon={faBuildingColumns} />
+                            <span className='ml-2'>Bancos</span>
+                        </Link>
+
+                        <Link to="/reports" onClick={() => handleButtonClick('Relatórios')} className={buttonMobileClass}>
+                            <FontAwesomeIcon icon={faChartLine} />
+                            <span className='ml-2'>Relatórios</span>
+                        </Link>
+
+                        <Link to="/settings" onClick={() => handleButtonClick('Configurações')} className={buttonMobileClass}>
+                            <FontAwesomeIcon icon={faGear} />
+                            <span className='ml-2'>Configurações</span>
+                        </Link>
+                    </div>
+                </div>
+            )}
         </header>
     );
 }

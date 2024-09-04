@@ -58,6 +58,17 @@ export function InputsOutputs() {
 
   const data = getChartData();
 
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false,
+    aspectRatio: 2,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <div className="p-6 rounded-lg bg-white shadow-xl w-full">
       <div className="flex flex-col mb-4">
@@ -88,7 +99,7 @@ export function InputsOutputs() {
       </div>
       <div className="overflow-x-auto">
         <div className="w-full h-full">
-          <Line data={data} options={{ responsive: true, maintainAspectRatio: false }} />
+          <Line data={data} options={options} />
         </div>
       </div>
     </div>

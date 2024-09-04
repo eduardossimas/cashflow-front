@@ -11,7 +11,7 @@ export function Footer() {
                     <p>Simplificando a Complexidade, Maximizando a Eficiência.</p>
                 </div>
                 <div className='lg:col-span-1'>
-                    <div className='flex gap-10 justify-end'>
+                    <div className='flex flex-col gap-10 justify-end mt-8 lg:flex-row'>
                         <a href="#">Dashboard</a>
                         <a href="#">Transações</a>
                         <a href="#">Bancos</a>
@@ -21,7 +21,7 @@ export function Footer() {
             </div>
             <div className='border mt-4 mb-9'></div>
             <div className='flex justify-center'>
-                <p>© 2024 Universidade Federal de Juiz de Fora</p>
+                <p className='text-center'>© 2024 Universidade Federal de Juiz de Fora</p>
             </div>
         </footer>
     );

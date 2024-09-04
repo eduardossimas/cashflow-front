@@ -24,12 +24,12 @@ export function DashboardPage() {
           <Welcome />
           <Title title='Visão Geral' />
         </div>
-        <div className='lg:grid lg:grid-cols-10 lg:gap-4 hidden'>
-          <div className="lg:col-span-7 lg:row-span-2 flex flex-col space-y-4">
+        <div className='lg:grid lg:grid-cols-12 lg:gap-4 hidden'>
+          <div className="lg:col-span-8 lg:row-span-2 flex flex-col space-y-4">
             <InputsOutputs />
             <Cashflow />
           </div>
-          <div className="lg:col-span-3 lg:row-span-2 flex flex-col space-y-4">
+          <div className="lg:col-span-4 lg:row-span-2 flex flex-col space-y-4">
             <Resume />
             <ExpenseCategory />
           </div>
