@@ -2,7 +2,7 @@ import CashFlowPro from '../assets/CashFlowPro.svg';
 
 export function Footer() {
     return (
-        <footer className='flex-grow mt-4 bg-white pt-6 pb-11 pr-10 pl-10 h-full'>
+        <footer className='flex-shrink-0 mt-4 bg-white pt-6 pb-11 pr-10 pl-10'>
             <div className='lg:grid lg:grid-cols-2'>
                 <div className='lg:col-span-1 flex flex-col'>
                     <img src={CashFlowPro} alt="CashFlowPro" className="w-44 h-9 mb-7" />

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FiltrosTransacao } from './FiltrosTransacao';
+import { FiltrosTransacaoBanco } from './FiltrosTransacaoBanco';
 
-export function ListaTransacao() {
+export function ListaTransacaoBanco() {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterOpen, setFilterOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,7 +63,7 @@ export function ListaTransacao() {
 
             {filterOpen && (
                 <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                    <FiltrosTransacao />
+                    <FiltrosTransacaoBanco />
                 </div>
             )}
 
@@ -71,25 +71,21 @@ export function ListaTransacao() {
                 <table className="min-w-full bg-white">
                     <thead className="bg-gray-200 text-gray-600">
                         <tr>
-                            <th className="py-3 px-6 text-left">Data</th>
                             <th className='py-3 px-6 text-left'>Data Pagamento</th>
                             <th className="py-3 px-6 text-left">Descrição</th>
                             <th className="py-3 px-6 text-left">Valor</th>
                             <th className="py-3 px-6 text-left">Categoria</th>
                             <th className="py-3 px-6 text-left">Tipo</th>
-                            <th className="py-3 px-6 text-left">Banco</th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-700">
                         {currentTransactions.map((transaction, index) => (
                             <tr key={index} className="border-b">
-                                <td className="py-3 px-6">{transaction.date}</td>
                                 <td className="py-3 px-6">{transaction.datePag}</td>
                                 <td className="py-3 px-6">{transaction.description}</td>
                                 <td className="py-3 px-6">{transaction.value}</td>
                                 <td className="py-3 px-6">{transaction.category}</td>
                                 <td className="py-3 px-6">{transaction.type}</td>
-                                <td className="py-3 px-6">{transaction.bank}</td>
                             </tr>
                         ))}
                     </tbody>

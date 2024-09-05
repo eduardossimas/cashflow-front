@@ -3,22 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faTrash } from '@fortawesome/free-solid-svg-icons';
 import React from 'react';
 
-export function FiltrosTransacao() {
+export function FiltrosTransacaoBanco() {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedDateRange, setSelectedDateRange] = useState('');
     const [selectedTransactionType, setSelectedTransactionType] = useState('');
-    const [selectedBank, setSelectedBank] = useState('');
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedCategory(e.target.value);
     const handleDateRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedDateRange(e.target.value);
     const handleTransactionTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTransactionType(e.target.value);
-    const handleBankChange = (e: React.ChangeEvent<HTMLSelectElement>) => setSelectedBank(e.target.value);
 
     const handleFilterReset = () => {
         setSelectedCategory('');
         setSelectedDateRange('');
         setSelectedTransactionType('');
-        setSelectedBank('');
     };
 
     const handleFilter = () => {
@@ -59,17 +56,6 @@ export function FiltrosTransacao() {
                 <option value="entrada">Entrada</option>
                 <option value="saida">Saída</option>
                 <option value="transferencia">Transferência</option>
-            </select>
-
-            <select
-                value={selectedBank}
-                onChange={handleBankChange}
-                className="p-2 border rounded-lg lg:w-min mb-2 lg:mb-0"
-            >
-                <option value="">Todos os Bancos</option>
-                <option value="banco1">Banco A</option>
-                <option value="banco2">Banco B</option>
-                <option value="banco3">Banco C</option>
             </select>
 
             <button
