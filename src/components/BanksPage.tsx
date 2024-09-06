@@ -15,7 +15,7 @@ export function BanksPage() {
             <div className='flex flex-col gap-4 lg:grid lg:grid-cols-12'>
                 {bancoSelecionado !== null && (
                     <div className="lg:col-span-8">
-                        <ListaTransacaoBanco />
+                        <ListaTransacaoBanco selectedBank={bancoSelecionado} />
                     </div>
                 )}
                 {bancoSelecionado !== null && (

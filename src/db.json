@@ -1,0 +1,22 @@
+{
+    "bancos": [
+      { "id": 1, "nome": "Caixinha", "saldo": 2500.50},
+      { "id": 2, "nome": "Nubank", "saldo": 2000.00}
+    ],
+    "transactions": [
+        { "description": "Luz", "value": "R$ 100,00", "category": "Energia Elétrica", "date": "03/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 2 },
+        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
+        { "description": "Taxas Cartão", "value": "R$ 20,00", "category": "Taxas Cartão", "date": "01/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 1 },
+        { "description": "Água", "value": "R$ 100,00", "category": "Água", "date": "01/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 2 },
+        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
+        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
+        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
+        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 }
+    ],
+    "categories": [
+        { "id": 1, "name": "Energia Elétrica" },
+        { "id": 2, "name": "Depósitos" },
+        { "id": 3, "name": "Taxas Cartão" },
+        { "id": 4, "name": "Água" }
+    ]
+  }

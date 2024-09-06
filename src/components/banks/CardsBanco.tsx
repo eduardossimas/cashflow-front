@@ -1,21 +1,36 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 interface CardsBancoProps {
-    onSelectBanco: (index: number) => void;
+    onSelectBanco: (id: number) => void;
+}
+
+interface Banco {
+    id: number;
+    nome: string;
+    saldo: number;
 }
 
 export function CardsBanco({ onSelectBanco }: CardsBancoProps) {
     // Estado para armazenar o banco selecionado
     const [bancoSelecionado, setBancoSelecionado] = useState<number | null>(null);
 
-    // Array de testes de bancos cadastrados
-    const bancosTeste = [
-        { nome: 'Caixinha', saldo: 1500.50 },
-        { nome: 'Nubank', saldo: 3200.00 },
-    ];
+    // Estado para armazenar os bancos carregados da API
+    const [bancos, setBancos] = useState<Banco[]>([]);
+
+    // Função para buscar os bancos da API
+    useEffect(() => {
+        axios.get('http://localhost:3000/bancos') // URL do json-server ou API back-end
+            .then(response => {
+                setBancos(response.data); // Salva os dados no estado
+            })
+            .catch(error => {
+                console.error('Erro ao buscar os bancos:', error);
+            });
+    }, []);
 
     // Função para lidar com a seleção do banco
     const selecionarBanco = (index: number) => {
@@ -23,12 +38,14 @@ export function CardsBanco({ onSelectBanco }: CardsBancoProps) {
         onSelectBanco(index); // Chama a função passada via props
     };
 
+
+
     return (
         <div className="flex flex-wrap gap-4">
-            {bancosTeste.length > 0 &&
-                bancosTeste.map((banco, index) => (
+            {bancos.length > 0 &&
+                bancos.map((banco, index) => (
                     <div
-                        key={index}
+                        key={banco.id}
                         className={`p-6 rounded-lg shadow-xl w-full lg:w-64 cursor-pointer 
                         ${bancoSelecionado === index ? 'bg-orange-100 border-2 border-orange-500' : 'bg-white'}`}
                         onClick={() => selecionarBanco(index)}

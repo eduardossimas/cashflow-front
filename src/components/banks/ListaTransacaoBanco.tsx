@@ -1,29 +1,47 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FiltrosTransacaoBanco } from './FiltrosTransacaoBanco';
+import axios from 'axios';
 
-export function ListaTransacaoBanco() {
+interface Transaction {
+    description: string;
+    value: number;
+    category: string;
+    date: string;
+    datePag: string;
+    type: string;
+    bank: number;
+}
+
+interface ListaTransacaoBancoProps {
+    selectedBank: number;
+}
+
+export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) {
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterOpen, setFilterOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // Número de itens por página
 
-    const transactions = [
-        { description: 'Luz', value: 'R$ 100,00', category: 'Energia Elétrica', date: '03/09/2024', datePag: '03/09/2024', type: 'Saída', bank: 'Banco A' },
-        { description: 'Receita de Vendas - Cartão', value: 'R$ 200,00', category: 'Depósitos', date: '02/09/2024', datePag: '03/09/2024', type: 'Entrada', bank: 'Banco B' },
-        { description: 'Taxas Cartão', value: 'R$ 20,00', category: 'Taxas Cartão', date: '01/09/2024', datePag: '03/09/2024', type: 'Saída', bank: 'Banco B' },
-        { description: 'Água', value: 'R$ 100,00', category: 'Água', date: '01/09/2024', datePag: '03/09/2024', type: 'Saída', bank: 'Banco A' },
-        { description: 'Receita de Vendas - Cartão', value: 'R$ 200,00', category: 'Depósitos', date: '02/09/2024', datePag: '03/09/2024', type: 'Entrada', bank: 'Banco B' },
-        { description: 'Receita de Vendas - Cartão', value: 'R$ 200,00', category: 'Depósitos', date: '02/09/2024', datePag: '03/09/2024', type: 'Entrada', bank: 'Banco B' },
-        { description: 'Receita de Vendas - Cartão', value: 'R$ 200,00', category: 'Depósitos', date: '02/09/2024', datePag: '03/09/2024', type: 'Entrada', bank: 'Banco B' },
-        { description: 'Receita de Vendas - Cartão', value: 'R$ 200,00', category: 'Depósitos', date: '02/09/2024', datePag: '03/09/2024', type: 'Entrada', bank: 'Banco B' },
-    ];
+    useEffect(() => {
+        axios.get('http://localhost:3000/transactions').then(responde => {
+            setTransactions(responde.data);
+        }).catch(error => {
+            console.error('Erro ao buscar as transações:', error);
+        })
+    }, []);
 
-    const totalPages = Math.ceil(transactions.length / itemsPerPage);
+    // Função para filtrar as transações com base na pesquisa
+    const filteredTransactions = transactions.filter(transactions => transactions.bank === (selectedBank+1)).filter(transaction =>
+        transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
 
     // Transações da página atual
-    const currentTransactions = transactions.slice(
+    const currentTransactions = filteredTransactions.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -79,15 +97,21 @@ export function ListaTransacaoBanco() {
                         </tr>
                     </thead>
                     <tbody className="text-gray-700">
-                        {currentTransactions.map((transaction, index) => (
-                            <tr key={index} className="border-b">
-                                <td className="py-3 px-6">{transaction.datePag}</td>
-                                <td className="py-3 px-6">{transaction.description}</td>
-                                <td className="py-3 px-6">{transaction.value}</td>
-                                <td className="py-3 px-6">{transaction.category}</td>
-                                <td className="py-3 px-6">{transaction.type}</td>
+                        {currentTransactions.length > 0 ? (
+                            currentTransactions.map((transaction, index) => (
+                                <tr key={index} className="border-b">
+                                    <td className="py-3 px-6">{transaction.datePag}</td>
+                                    <td className="py-3 px-6">{transaction.description}</td>
+                                    <td className="py-3 px-6">{transaction.value}</td>
+                                    <td className="py-3 px-6">{transaction.category}</td>
+                                    <td className="py-3 px-6">{transaction.type}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan={5} className="py-3 px-6 text-center">Nenhuma transação encontrada</td>
                             </tr>
-                        ))}
+                        )}
                     </tbody>
                 </table>
             </div>
