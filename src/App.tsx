@@ -8,6 +8,8 @@ import { BanksPage } from './components/BanksPage';
 import { NovoBancoPage } from './components/banks/NovoBancoPage';
 import { ReportsPage } from './components/ReportsPage';
 import { SettingsPage } from './components/SettingsPage'; 
+import { NovoPlanoPag } from './components/options/NovoPlanoPag';
+import { NovaCategoriaPag } from './components/options/NovaCategoriaPag';
 
 export function App() {
   return (
@@ -16,7 +18,7 @@ export function App() {
         <div className='p-5'>
           <div className='lg:flex lg:flex-row'>
             <Header />
-            <main className='lg:ml-5 lg:w-full lg:h-full'>
+            <main className='lg:ml-5 lg:w-full lg:h-full overflow-x-auto'>
               <Routes>
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
@@ -25,6 +27,8 @@ export function App() {
                 <Route path="/banks/new-bank" element={<NovoBancoPage />} />
                 <Route path="/reports" element={<ReportsPage />} />
                 <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/settings/new-plan" element={<NovoPlanoPag />} />
+                <Route path="/settings/new-category" element={<NovaCategoriaPag />} />
               </Routes>
             </main>
           </div>

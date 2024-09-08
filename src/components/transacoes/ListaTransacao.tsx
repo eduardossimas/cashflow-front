@@ -68,7 +68,7 @@ export function ListaTransacao() {
             )}
 
             <div className="overflow-x-auto">
-                <table className="min-w-full bg-white">
+                <table className="min-w-full bg-white text-sm">
                     <thead className="bg-gray-200 text-gray-600">
                         <tr>
                             <th className="py-3 px-6 text-left">Data</th>

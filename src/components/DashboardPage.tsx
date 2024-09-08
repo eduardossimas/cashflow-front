@@ -1,9 +1,9 @@
-import { InputsOutputs } from './InputsOutputs'
-import { Resume } from './Resume'
+import { InputsOutputs } from './dashboards/InputsOutputs'
+import { Resume } from './dashboards/Resume'
 import { Title } from './Title'
-import { Welcome } from './Welcome'
-import { Cashflow } from './Cashflow'
-import { ExpenseCategory } from './ExpenseCategory'
+import { Welcome } from './dashboards/Welcome'
+import { Cashflow } from './dashboards/Cashflow'
+import { ExpenseCategory } from './dashboards/ExpenseCategory'
 
 export function DashboardPage() {
   return (

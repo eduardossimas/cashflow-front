@@ -1,10 +1,10 @@
 export function ListaCategorias() {
     const categoriasPlanoContas = [
-        { description: 'Receitas', category: 'Receitas' },
-        { description: 'Despesas', category: 'Despesas' },
-        { description: 'Investimentos', category: 'Investimentos' },
-        { description: 'Empréstimos', category: 'Empréstimos' },
-        { description: 'Outros', category: 'Outros' }
+        { description: 'Receitas', faixa: 'Receitas' },
+        { description: 'Despesas', faixa: 'Despesas' },
+        { description: 'Investimentos', faixa: 'Investimentos' },
+        { description: 'Empréstimos', faixa: 'Empréstimos' },
+        { description: 'Outros', faixa: 'Outros' }
     ]
     
     return (
@@ -14,7 +14,7 @@ export function ListaCategorias() {
                     <tr>
                         <th className="py-3 px-6 text-left">ID</th>
                         <th className="py-3 px-6 text-left">Descrição</th>
-                        <th className="py-3 px-6 text-left">Categoria</th>
+                        <th className="py-3 px-6 text-left">Faixa no DRE</th>
                     </tr>
                 </thead>
                 <tbody className="text-gray-700">
@@ -22,7 +22,7 @@ export function ListaCategorias() {
                         <tr key={index} className="border-b">
                             <td className="py-3 px-6">{index + 1}</td>
                             <td className="py-3 px-6">{plano.description}</td>
-                            <td className="py-3 px-6">{plano.category}</td>
+                            <td className="py-3 px-6">{plano.faixa}</td>
                         </tr>
                     ))}
                 </tbody>
