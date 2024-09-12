@@ -2,16 +2,23 @@ import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FiltrosTransacaoBanco } from './FiltrosTransacaoBanco';
+import { format } from 'date-fns';
 import axios from 'axios';
 
-interface Transaction {
-    description: string;
-    value: number;
-    category: string;
-    date: string;
-    datePag: string;
-    type: string;
-    bank: number;
+interface Transacao {
+    descricao: string;
+    valor: number;
+    categoria: string;
+    data: string;
+    tipo: string;
+}
+
+interface Banco {
+    id: string;
+    nome: string;
+    dataInicio: string;
+    saldo: number;
+    transacoes: Transacao[];
 }
 
 interface ListaTransacaoBancoProps {
@@ -19,29 +26,37 @@ interface ListaTransacaoBancoProps {
 }
 
 export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) {
-    const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [transactions, setTransactions] = useState<Transacao[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterOpen, setFilterOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // Número de itens por página
 
+    selectedBank = selectedBank + 1;
+
     useEffect(() => {
-        axios.get('http://localhost:3000/transactions').then(responde => {
-            setTransactions(responde.data);
-        }).catch(error => {
-            console.error('Erro ao buscar as transações:', error);
-        })
-    }, []);
+        axios.get('http://localhost:3000/bancos')
+            .then(response => {
+                const bancos: Banco[] = response.data;
+                const bancoSelecionado = bancos.find(banco => banco.id === String(selectedBank));
 
-    // Função para filtrar as transações com base na pesquisa
-    const filteredTransactions = transactions.filter(transactions => transactions.bank === (selectedBank+1)).filter(transaction =>
-        transaction.description.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+                if (bancoSelecionado) {
+                    setTransactions(bancoSelecionado.transacoes);
+                } else {
+                    console.error('Banco selecionado não encontrado');
+                }
 
-    const totalPages = Math.ceil(filteredTransactions.length / itemsPerPage);
+                console.log('Transações:', bancoSelecionado?.transacoes);
+            })
+            .catch(error => {
+                console.error('Erro ao buscar as transações:', error);
+            });
+    }, [selectedBank]);
+
+    const totalPages = Math.ceil(transactions.length / itemsPerPage);
 
     // Transações da página atual
-    const currentTransactions = filteredTransactions.slice(
+    const currentTransactions = transactions.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
     );
@@ -89,22 +104,20 @@ export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) 
                 <table className="min-w-full bg-white text-sm">
                     <thead className="bg-gray-200 text-gray-600">
                         <tr>
-                            <th className='py-3 px-6 text-left'>Data Pagamento</th>
+                            <th className='py-3 px-6 text-left'>Data</th>
                             <th className="py-3 px-6 text-left">Descrição</th>
                             <th className="py-3 px-6 text-left">Valor</th>
                             <th className="py-3 px-6 text-left">Categoria</th>
-                            <th className="py-3 px-6 text-left">Tipo</th>
                         </tr>
                     </thead>
                     <tbody className="text-gray-700">
                         {currentTransactions.length > 0 ? (
                             currentTransactions.map((transaction, index) => (
                                 <tr key={index} className="border-b">
-                                    <td className="py-3 px-6">{transaction.datePag}</td>
-                                    <td className="py-3 px-6">{transaction.description}</td>
-                                    <td className="py-3 px-6">{transaction.value}</td>
-                                    <td className="py-3 px-6">{transaction.category}</td>
-                                    <td className="py-3 px-6">{transaction.type}</td>
+                                    <td className="py-3 px-6">{format(new Date(transaction.data), 'dd/MM/yyyy')}</td>
+                                    <td className="py-3 px-6">{transaction.descricao}</td>
+                                    <td className={`py-3 px-6 ${transaction.tipo === 'entrada' ? 'text-green-500' : 'text-red-500'}`}>{`${transaction.tipo === 'entrada' ? '' : '-'}R$ ${transaction.valor}`}</td>
+                                    <td className="py-3 px-6">{transaction.categoria}</td>
                                 </tr>
                             ))
                         ) : (

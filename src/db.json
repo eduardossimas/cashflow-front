@@ -1,22 +1,43 @@
 {
-    "bancos": [
-      { "id": 1, "nome": "Caixinha", "saldo": 2500.50},
-      { "id": 2, "nome": "Nubank", "saldo": 2000.00}
-    ],
-    "transactions": [
-        { "description": "Luz", "value": "R$ 100,00", "category": "Energia Elétrica", "date": "03/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 2 },
-        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
-        { "description": "Taxas Cartão", "value": "R$ 20,00", "category": "Taxas Cartão", "date": "01/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 1 },
-        { "description": "Água", "value": "R$ 100,00", "category": "Água", "date": "01/09/2024", "datePag": "03/09/2024", "type": "Saída", "bank": 2 },
-        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
-        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
-        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 },
-        { "description": "Receita de Vendas - Cartão", "value": "R$ 200,00", "category": "Depósitos", "date": "02/09/2024", "datePag": "03/09/2024", "type": "Entrada", "bank": 1 }
-    ],
-    "categories": [
-        { "id": 1, "name": "Energia Elétrica" },
-        { "id": 2, "name": "Depósitos" },
-        { "id": 3, "name": "Taxas Cartão" },
-        { "id": 4, "name": "Água" }
-    ]
-  }
+  "bancos": [
+    {
+      "id": "1",
+      "nome": "Nubank",
+      "dataInicio": "2024-01-01",
+      "saldo": 1370.75,
+      "transacoes": []
+    },
+    {
+      "id": "2",
+      "nome": "Caixinha",
+      "dataInicio": "2024-01-01",
+      "saldo": 902,
+      "transacoes": [
+        {
+          "id": 1726098699057,
+          "data": "2024-09-04",
+          "descricao": "Venda de Pão",
+          "categoria": "Receita com Vendas",
+          "valor": 20,
+          "tipo": "entrada"
+        },
+        {
+          "id": 1726098788871,
+          "data": "2024-09-11",
+          "descricao": "Venda de Bala",
+          "categoria": "Receita com Vendas",
+          "valor": 2,
+          "tipo": "entrada"
+        }
+      ]
+    }
+  ],
+  "planoDeContas": [
+    {
+      "id": "1",
+      "nome": "Receita com Vendas",
+      "categoria": "Receita com Vendas",
+      "faixa": "Receitas"
+    }
+  ]
+}

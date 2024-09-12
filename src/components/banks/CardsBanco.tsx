@@ -9,8 +9,9 @@ interface CardsBancoProps {
 }
 
 interface Banco {
-    id: number;
+    id: string;
     nome: string;
+    dataInicio: string;
     saldo: number;
 }
 
@@ -38,8 +39,6 @@ export function CardsBanco({ onSelectBanco }: CardsBancoProps) {
         onSelectBanco(index); // Chama a função passada via props
     };
 
-
-
     return (
         <div className="flex flex-wrap gap-4">
             {bancos.length > 0 &&
@@ -53,7 +52,7 @@ export function CardsBanco({ onSelectBanco }: CardsBancoProps) {
                         <div className="flex flex-col gap-2">
                             <h2 className="text-xl font-bold">{banco.nome}</h2>
                             <div className="border-t border-gray-400"></div>
-                            <p>Saldo: R$ {banco.saldo.toFixed(2)}</p>
+                            <p>Saldo: R$ {banco.saldo !== undefined ? banco.saldo.toFixed(2) : '0.00'}</p>
                         </div>
                     </div>
                 ))
