@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import User from '../../assets/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 export function FormUserSettings() {
-    const [imagemUrl, setImagemUrl] = useState('https://github.com/eduardossimas.png');
+    // Usa a URL da imagem importada como valor inicial
+    const [imagemUrl, setImagemUrl] = useState(User);
 
     // Função para lidar com a mudança da imagem
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +26,7 @@ export function FormUserSettings() {
             <div className='flex lg:flex-row gap-4 justify-between'>
                 <div className='flex items-center mt-4'>
                     <button type='button' className='relative'>
-                        <img className='rounded-full w-44' src={imagemUrl} alt="" />
+                        <img className='rounded-full w-44' src={imagemUrl} alt="Foto do usuário" />
                         <div className="absolute inset-0 flex items-center justify-center bg-orange-100 border-2 border-orange-500 opacity-0 group-hover:opacity-100 transition-opacity">
                             <i className="text-white text-2xl"><FontAwesomeIcon icon={faPen} /></i>
                         </div>

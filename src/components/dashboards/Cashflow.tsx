@@ -1,43 +1,76 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip } from 'chart.js';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 export function Cashflow() {
-  const [timeframe, setTimeframe] = useState('month');
+  const currentDate = new Date();
+  const month = currentDate.toLocaleString('default', { month: 'short' });
+  const year = currentDate.getFullYear();
+  const firstDay = `1 ${month}, ${year}`;
+  const lastDay = new Date(year, currentDate.getMonth() + 1, 0).getDate();
+  const lastDayFormatted = `${lastDay} ${month}, ${year}`;
 
-  const handleTimeframeChange = (newTimeframe: string) => {
-    setTimeframe(newTimeframe);
+  const [bancoDados, setBancoDados] = useState<any>(null); // Estado para armazenar os dados da API
+  const [loading, setLoading] = useState(true); // Estado para controle do carregamento
+
+  // Função para buscar os dados com Axios
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/bancos'); // Substitua pela URL do JSON Server
+        setBancoDados(response.data); // Armazena os dados no estado
+        setLoading(false); // Desativa o loading quando os dados são carregados
+      } catch (error) {
+        console.error('Erro ao buscar os dados:', error);
+        setLoading(false); // Desativa o loading também em caso de erro
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Função para filtrar as transações dentro de um intervalo de datas
+  const filterTransacoes = (transacoes: any[], startDate: Date, endDate: Date) => {
+    return transacoes.filter((transacao) => {
+      const transacaoDate = new Date(transacao.data);
+      return transacaoDate >= startDate && transacaoDate <= endDate;
+    });
   };
 
+  // Função para preparar os dados para o gráfico
   const getChartData = () => {
-    let labels: Array<string | number> = [];
+    let labels: Array<number> = []; // Garantir que os labels são números
     let data: number[] = [];
+    let saldoAcumulado = 0; // Variável para manter o saldo acumulado inicial
 
-    switch (timeframe) {
-      case 'day':
-        labels = Array.from({ length: 31 }, (_, i) => i + 1);
-        data = Array.from({ length: 31 }, () => Math.floor(Math.random() * 5000));
-        break;
-      case 'month':
-        labels = Array.from({ length: 12 }, (_, i) => i + 1);
-        data = Array.from({ length: 12 }, () => Math.floor(Math.random() * 5000));
-        break;
-      case 'year':
-        const currentYear = new Date().getFullYear();
-        labels = Array.from({ length: 5 }, (_, i) => currentYear - 2 + i);
-        data = Array.from({ length: 5 }, () => Math.floor(Math.random() * 5000));
-        break;
-      default:
-        break;
-    }
+    if (!bancoDados) return { labels, datasets: [] }; // Verifica se os dados foram carregados
+
+    // Encontra o banco "Nubank"
+    const bancoSelecionado = bancoDados.find((banco: any) => banco.nome === 'Nubank') || { saldoInicio: 0, saldo: 0, transacoes: [] };
+
+    const { saldoInicio, transacoes } = bancoSelecionado;
+    saldoAcumulado = saldoInicio; // Começa com o saldo inicial do banco
+
+    const currentDate = new Date();
+    labels = Array.from({ length: 31 }, (_, i) => i + 1); // Dias do mês
+    data = labels.map((day) => {
+      const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+      const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1);
+      const filteredTransacoes = filterTransacoes(transacoes, startDate, endDate);
+
+      // Calcula o saldo diário e acumula o saldo
+      saldoAcumulado += filteredTransacoes.reduce((acc, t) => acc + (t.tipo === 'entrada' ? t.valor : -t.valor), 0);
+      return saldoAcumulado;
+    });
 
     return {
       labels,
       datasets: [
         {
-          label: 'Fluxo de Caixa',
+          label: 'Saldo Acumulado',
           data,
           borderColor: 'rgba(75, 192, 192, 1)',
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
@@ -46,8 +79,7 @@ export function Cashflow() {
     };
   };
 
-  const data = getChartData();
-
+  // Configurações do gráfico
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -56,35 +88,30 @@ export function Cashflow() {
         display: false, // Esconder a legenda
       },
     },
-  };
+    scales: {
+      y: {
+        beginAtZero: true, // Garante que o eixo Y comece do 0
+        min: 0, // Define o valor mínimo para o eixo Y como 0
+      },
+    },
+  };  
 
+  // Verifica se os dados estão carregando
+  if (loading) {
+    return <div>Carregando...</div>; // Exibe um indicador de carregamento enquanto os dados não chegam
+  }
+
+  // Obtém os dados para o gráfico
+  const data = getChartData();
+
+  // Retorna o JSX do componente
   return (
     <div className="p-6 rounded-lg bg-white shadow-xl w-full">
       <div className="flex flex-col mb-4">
         <div className="flex items-center justify-between">
           <h5>Fluxo de Caixa</h5>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => handleTimeframeChange('day')}
-              className={`p-2 text-sm ${timeframe === 'day' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Dia
-            </button>
-            <button
-              onClick={() => handleTimeframeChange('month')}
-              className={`p-2 text-sm ${timeframe === 'month' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Mês
-            </button>
-            <button
-              onClick={() => handleTimeframeChange('year')}
-              className={`p-2 text-sm ${timeframe === 'year' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Ano
-            </button>
-          </div>
         </div>
-        <span className="text-gray-600 text-[0.65rem]">1 Jan, 2024 - 31 Jan, 2024</span>
+        <span className="text-gray-600 text-[0.65rem]">{firstDay} - {lastDayFormatted}</span>
       </div>
       <div className="overflow-x-auto">
         <div className="w-full h-full">

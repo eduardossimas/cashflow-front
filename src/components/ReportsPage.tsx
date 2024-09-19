@@ -8,7 +8,7 @@ export function ReportsPage() {
     return(
         <div className="flex flex-col gap-4 mt-4 w-full max-w-full">
             <Title title="Relatórios" />
-            <div className="flex flex-row gap-4">
+            <div className="flex lg:flex-row flex-col gap-4">
                 <ExportarDRE />
                 <ExportarFluxoDeCaixa />
             </div>

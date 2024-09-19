@@ -28,6 +28,7 @@ export function NovoBancoForm() {
                 id: String(maiorId + 1),
                 nome: nome,
                 dataInicio: dataInicio,
+                saldoInicio: saldo !== undefined ? saldo : 0,
                 saldo: saldo !== undefined ? saldo : 0,
                 transacoes: []
             }

@@ -20,7 +20,7 @@ export function BanksPage() {
                 )}
                 {bancoSelecionado !== null && (
                     <div className="lg:col-span-4">
-                        <CategoriaGastosBanco />
+                        <CategoriaGastosBanco selectedBank={bancoSelecionado} />
                     </div>
                 )}
             </div>

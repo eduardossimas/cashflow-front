@@ -1,33 +1,30 @@
 {
+  "user":[
+
+  ],
   "bancos": [
     {
       "id": "1",
       "nome": "Nubank",
-      "dataInicio": "2024-01-01",
-      "saldo": 1370.75,
-      "transacoes": []
-    },
-    {
-      "id": "2",
-      "nome": "Caixinha",
-      "dataInicio": "2024-01-01",
-      "saldo": 902,
+      "dataInicio": "2024-09-01",
+      "saldoInicio": 100,
+      "saldo": 800,
       "transacoes": [
         {
-          "id": 1726098699057,
-          "data": "2024-09-04",
-          "descricao": "Venda de Pão",
+          "id": 1726619962735,
+          "data": "2024-09-17",
+          "descricao": "Receita com Vendas",
           "categoria": "Receita com Vendas",
-          "valor": 20,
+          "valor": 1000,
           "tipo": "entrada"
         },
         {
-          "id": 1726098788871,
-          "data": "2024-09-11",
-          "descricao": "Venda de Bala",
-          "categoria": "Receita com Vendas",
-          "valor": 2,
-          "tipo": "entrada"
+          "id": 1726619989922,
+          "data": "2024-09-17",
+          "descricao": "Salário - Maria",
+          "categoria": "Salários",
+          "valor": 300,
+          "tipo": "saida"
         }
       ]
     }
@@ -38,6 +35,12 @@
       "nome": "Receita com Vendas",
       "categoria": "Receita com Vendas",
       "faixa": "Receitas"
+    },
+    {
+      "id": "2",
+      "nome": "Salários",
+      "categoria": "Salários",
+      "faixa": "Custos Fixos"
     }
   ]
 }

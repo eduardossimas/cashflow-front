@@ -1,42 +1,81 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export function ExpenseCategory() {
-  const [timeframe, setTimeframe] = useState('month');
+interface Transacao {
+  id: number;
+  data: string;
+  descricao: string;
+  valor: number;
+  categoria: string;
+  tipo: string;
+  bancoNome: string;
+}
 
-  const handleTimeframeChange = (newTimeframe: string) => {
-    setTimeframe(newTimeframe);
-  };
+interface Banco {
+  id: number;
+  nome: string;
+  dataInicio: string;
+  saldo: number;
+  transacoes: Transacao[];
+}
+
+export function ExpenseCategory() {
+  const currentDate = new Date();
+  const month = currentDate.toLocaleString('default', { month: 'short' });
+  const year = currentDate.getFullYear();
+  const firstDay = `1 ${month}, ${year}`;
+  const lastDay = new Date(year, currentDate.getMonth() + 1, 0).getDate();
+  const lastDayFormatted = `${lastDay} ${month}, ${year}`;
+
+  const [transacoes, setTransacoes] = useState<Transacao[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/bancos')
+      .then(response => {
+        const bancos: Banco[] = response.data;
+
+        // Mapeia as transações e inclui o nome do banco
+        const todasTransacoes: Transacao[] = bancos.flatMap(banco =>
+          banco.transacoes.map(transacao => ({
+            ...transacao, // Mantém as propriedades da transação
+            bancoNome: banco.nome,  // Adiciona o nome do banco
+          }))
+        );
+
+        setTransacoes(todasTransacoes);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Erro ao buscar os bancos:', error);
+      });
+  }, []);
 
   const getChartData = () => {
-    let labels: string[] = [];
-    let data: number[] = [];
+    const categoriaMap: Record<string, number> = {};
 
-    switch (timeframe) {
-      case 'day':
-        labels = ['Food', 'Transport', 'Rent', 'Entertainment', 'Others'];
-        data = Array.from({ length: 5 }, () => Math.floor(Math.random() * 1000));
-        break;
-      case 'month':
-        labels = ['Food', 'Transport', 'Rent', 'Entertainment', 'Others'];
-        data = Array.from({ length: 5 }, () => Math.floor(Math.random() * 5000));
-        break;
-      case 'year':
-        labels = ['Food', 'Transport', 'Rent', 'Entertainment', 'Others'];
-        data = Array.from({ length: 5 }, () => Math.floor(Math.random() * 50000));
-        break;
-      default:
-        break;
-    }
+    // Agrega os gastos por categoria
+    transacoes.forEach(transacao => {
+      if (transacao.tipo === 'saida') {
+        if (!categoriaMap[transacao.categoria]) {
+          categoriaMap[transacao.categoria] = 0;
+        }
+        categoriaMap[transacao.categoria] += transacao.valor;
+      }
+    });
+
+    const labels = Object.keys(categoriaMap);
+    const data = Object.values(categoriaMap);
 
     return {
       labels,
       datasets: [
         {
-          label: 'Categorias de Gastos',
+          label: 'Total Gasto',
           data,
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -65,38 +104,38 @@ export function ExpenseCategory() {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'right' as const, // Muda a legenda para o topo
+        position: 'right' as const, // Muda a legenda para o lado direito
       },
     },
   };
+
+  if (loading) {
+    return <div>Carregando...</div>;
+  }
+
+  if (transacoes.length === 0) {
+    return (
+      <div className="p-6 rounded-lg bg-white shadow-xl w-full h-full flex flex-col">
+        <div className="flex flex-col mb-4">
+          <div className="flex items-center justify-between">
+            <h5>Categorias de Gastos</h5>
+          </div>
+          <span className="text-gray-600 text-[0.65rem]">1 Jan, 2024 - 31 Jan, 2024</span>
+        </div>
+        <div className="flex flex-col justify-center items-center flex-grow">
+          <span className="text-gray-600 text-[1rem]">Sem transações cadastradas</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 rounded-lg bg-white shadow-xl w-full h-full">
       <div className="flex flex-col mb-4">
         <div className="flex items-center justify-between">
           <h5>Categorias de Gastos</h5>
-          <div className="flex space-x-4">
-            <button
-              onClick={() => handleTimeframeChange('day')}
-              className={`p-2 text-sm ${timeframe === 'day' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Dia
-            </button>
-            <button
-              onClick={() => handleTimeframeChange('month')}
-              className={`p-2 text-sm ${timeframe === 'month' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Mês
-            </button>
-            <button
-              onClick={() => handleTimeframeChange('year')}
-              className={`p-2 text-sm ${timeframe === 'year' ? 'bg-orange-600 text-white' : 'bg-gray-200'}`}
-            >
-              Ano
-            </button>
-          </div>
         </div>
-        <span className="text-gray-600 text-[0.65rem]">1 Jan, 2024 - 31 Jan, 2024</span>
+        <span className="text-gray-600 text-[0.65rem]">{firstDay} - {lastDayFormatted}</span>
       </div>
       <div className="overflow-x-auto">
         <div className="w-full h-[35vh]">

@@ -66,10 +66,11 @@ export function NovoPlanoForm() {
                     required
                 >
                     <option value="Receitas">Receitas</option>
-                    <option value="Despesas">Despesas</option>
-                    <option value="Investimentos">Investimentos</option>
-                    <option value="Empréstimos">Empréstimos</option>
-                    <option value="Outros">Outros</option>
+                    <option value="Deducoes">Deduções</option>
+                    <option value="CustosVariaveis">Custos Variáveis</option>
+                    <option value="CustosVariaveis">Custos Fixos</option>
+                    <option value="ReceitasFinanceiras">Receitas Financeiras</option>
+                    <option value="DespesasFinanceiras">Despesas Financeiras</option>
                 </select>
 
                 <button className="bg-orange-500 text-white rounded-lg p-2 hover:bg-orange-600" type="submit">
