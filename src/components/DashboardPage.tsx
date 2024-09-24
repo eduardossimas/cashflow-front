@@ -19,7 +19,7 @@ export function DashboardPage() {
         </div>
       </div>
 
-      <div>
+      <div className='xl:h-[90vh]'>
         <div className='lg:flex lg:flex-col lg:gap-4 lg:mt-2 lg:mb-4 hidden'>
           <Welcome />
           <Title title='Visão Geral' />

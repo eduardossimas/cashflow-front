@@ -1,25 +1,36 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Footer } from './components/Footer';
 import { DashboardPage } from './components/DashboardPage';
 import { TransactionsPage } from './components/TransactionsPage';
 import { NovaTransacaoPage } from './components/transacoes/NovaTransacaoPage';
 import { BanksPage } from './components/BanksPage';
 import { NovoBancoPage } from './components/banks/NovoBancoPage';
 import { ReportsPage } from './components/ReportsPage';
-import { SettingsPage } from './components/SettingsPage'; 
+import { SettingsPage } from './components/SettingsPage';
 import { NovoPlanoPag } from './components/options/NovoPlanoPag';
 import { NovaCategoriaPag } from './components/options/NovaCategoriaPag';
+import { LoginPage } from './components/login/LoginPage';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './context/ProtectedRoute';
 
-export function App() {
+function AppContent() {
+  const location = useLocation(); // Hook para obter a localização atual
+
+  const isLoginPage = location.pathname === '/login';
+
   return (
-    <Router>
-      <div className='bg-gray-100 lg:w-full min-h-screen'>
-        <div className='p-5'>
-          <div className='lg:flex lg:flex-row'>
+    <div className={`bg-gray-100 lg:w-full min-h-screen ${isLoginPage ? '' : 'p-5'}`}>
+      <div className={`lg:flex lg:flex-row`}>
+        {!isLoginPage && (
+          <div className='lg:fixed'>
             <Header />
-            <main className='lg:ml-5 lg:w-full lg:h-full overflow-x-auto'>
-              <Routes>
+          </div>
+        )}
+        <main className={`lg:w-full lg:h-full overflow-x-auto ${isLoginPage ? '' : 'lg:ml-64'}`}>
+          <AuthProvider>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
                 <Route path="/transactions/new-transaction" element={<NovaTransacaoPage />} />
@@ -29,12 +40,19 @@ export function App() {
                 <Route path="/settings" element={<SettingsPage />} />
                 <Route path="/settings/new-plan" element={<NovoPlanoPag />} />
                 <Route path="/settings/new-category" element={<NovaCategoriaPag />} />
-              </Routes>
-            </main>
-          </div>
-        </div>
+              </Route>
+            </Routes>
+          </AuthProvider>
+        </main>
       </div>
-      <Footer />
+    </div>
+  );
+}
+
+export function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

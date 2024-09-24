@@ -1,14 +1,12 @@
 {
-  "user":[
-
-  ],
+  "user": [],
   "bancos": [
     {
       "id": "1",
       "nome": "Nubank",
       "dataInicio": "2024-09-01",
       "saldoInicio": 100,
-      "saldo": 800,
+      "saldo": 700,
       "transacoes": [
         {
           "id": 1726619962735,
@@ -24,6 +22,14 @@
           "descricao": "Salário - Maria",
           "categoria": "Salários",
           "valor": 300,
+          "tipo": "saida"
+        },
+        {
+          "id": 1727045715095,
+          "data": "2024-02-12",
+          "descricao": "Teste",
+          "categoria": "Salários",
+          "valor": 100,
           "tipo": "saida"
         }
       ]

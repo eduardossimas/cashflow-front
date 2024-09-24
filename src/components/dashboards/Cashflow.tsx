@@ -15,6 +15,7 @@ export function Cashflow() {
 
   const [bancoDados, setBancoDados] = useState<any>(null); // Estado para armazenar os dados da API
   const [loading, setLoading] = useState(true); // Estado para controle do carregamento
+  const [isXL, setIsXL] = useState(false); // Estado para detectar se a tela é extra grande
 
   // Função para buscar os dados com Axios
   useEffect(() => {
@@ -30,6 +31,20 @@ export function Cashflow() {
     };
 
     fetchData();
+  }, []);
+
+  // Hook para detectar o tamanho da tela
+  useEffect(() => {
+    const handleResize = () => {
+      setIsXL(window.innerWidth >= 1280); // Define como extra grande se a largura da tela for maior ou igual a 1280px
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Chama a função uma vez para definir o estado inicial
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Função para filtrar as transações dentro de um intervalo de datas
@@ -92,6 +107,9 @@ export function Cashflow() {
       y: {
         beginAtZero: true, // Garante que o eixo Y comece do 0
         min: 0, // Define o valor mínimo para o eixo Y como 0
+        ticks: {
+          maxTicksLimit: isXL ? 20 : 10, // Aumenta o número de pontos no eixo Y se a tela for extra grande
+        },
       },
     },
   };  
@@ -106,14 +124,14 @@ export function Cashflow() {
 
   // Retorna o JSX do componente
   return (
-    <div className="p-6 rounded-lg bg-white shadow-xl w-full">
+    <div className="p-6 rounded-lg bg-white shadow-xl w-full h-full flex flex-col">
       <div className="flex flex-col mb-4">
         <div className="flex items-center justify-between">
           <h5>Fluxo de Caixa</h5>
         </div>
         <span className="text-gray-600 text-[0.65rem]">{firstDay} - {lastDayFormatted}</span>
       </div>
-      <div className="overflow-x-auto">
+      <div className="flex-1 overflow-x-auto">
         <div className="w-full h-full">
           <Line data={data} options={options} />
         </div>
