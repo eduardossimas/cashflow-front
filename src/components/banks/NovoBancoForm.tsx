@@ -6,7 +6,7 @@ export function NovoBancoForm() {
 
     const [nome, setNome] = useState('');
     const [dataInicio, setDataInicio] = useState('');
-    const [saldo, setSaldo] = useState(0);
+    const [saldo, setSaldo] = useState<number | string>('');
 
     const navigate = useNavigate()
 

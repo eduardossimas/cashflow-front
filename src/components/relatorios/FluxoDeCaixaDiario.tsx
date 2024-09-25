@@ -8,7 +8,7 @@ export function FluxoDeCaixaDiario() {
   const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth()); // Mês selecionado
   const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear()); // Ano selecionado
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
 
   // Buscar os dados dos bancos com Axios
   useEffect(() => {

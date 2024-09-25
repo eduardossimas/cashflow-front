@@ -4,7 +4,6 @@ import axios from "axios";
 
 export function NovoPlanoForm() {
 
-    const [nome, setNome] = useState('');
     const [categoria, setCategoria] = useState('');
     const [faixa, setFaixa] = useState('Receitas'); // Valor inicial da faixa
     const navigate = useNavigate(); 
@@ -19,7 +18,7 @@ export function NovoPlanoForm() {
 
             const novoPlanoDeContas = {
                 id: String(maiorId + 1),
-                nome: nome,
+                nome: categoria,
                 categoria: categoria,
                 faixa: faixa
             };
@@ -34,17 +33,6 @@ export function NovoPlanoForm() {
     return (
         <div>
             <form className="flex flex-col gap-4" onSubmit={savePlanoDeContas}>
-                <label className="text-sm" htmlFor="nome">Nome</label>
-                <input
-                    className="border border-gray-300 rounded-lg p-2"
-                    type="text"
-                    name="nome"
-                    id="nome"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}
-                    required
-                />
-
                 <label className="text-sm" htmlFor="categoria">Categoria</label>
                 <input
                     className="border border-gray-300 rounded-lg p-2"

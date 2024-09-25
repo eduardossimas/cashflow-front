@@ -20,7 +20,7 @@ export function InputsOutputs() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/bancos'); // Substitua pela URL do JSON Server
+        const response = await axios.get('http://localhost:3000/bancos'); // Substitua pela URL do seu JSON Server
         setBancoDados(response.data); // Armazena os dados no estado
         setLoading(false); // Desativa o loading quando os dados são carregados
       } catch (error) {
@@ -36,7 +36,7 @@ export function InputsOutputs() {
   const filterTransacoes = (transacoes: any[], startDate: Date, endDate: Date) => {
     return transacoes.filter((transacao) => {
       const transacaoDate = new Date(transacao.data);
-      return transacaoDate >= startDate && transacaoDate <= endDate;
+      return transacaoDate >= startDate && transacaoDate < endDate; // Ajuste de comparação
     });
   };
 
@@ -45,35 +45,37 @@ export function InputsOutputs() {
     let labels: Array<number> = [];
     let dataEntradas: number[] = [];
     let dataSaidas: number[] = [];
-  
+
     if (!bancoDados || bancoDados.length === 0) return { labels, datasets: [] }; // Verifica se os dados foram carregados
-  
+
     // Inicializa os arrays de entradas e saídas com 0
     labels = Array.from({ length: lastDay }, (_, i) => i + 1); // Dias do mês
     dataEntradas = new Array(lastDay).fill(0);
     dataSaidas = new Array(lastDay).fill(0);
-  
+
     // Itera sobre todos os bancos
     bancoDados.forEach((banco: any) => {
       const { transacoes } = banco;
-  
-      // Para cada dia do mês, calcula as entradas e saídas
-      labels.forEach((day) => {
-        const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-        const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1);
-        const filteredTransacoes = filterTransacoes(transacoes, startDate, endDate);
-  
-        // Soma as entradas e saídas no dia
-        filteredTransacoes.forEach((t) => {
-          if (t.tipo === 'entrada') {
-            dataEntradas[day - 1] += t.valor;
-          } else if (t.tipo === 'saida') {
-            dataSaidas[day - 1] += t.valor;
-          }
+
+      if (transacoes && transacoes.length > 0) {
+        // Para cada dia do mês, calcula as entradas e saídas
+        labels.forEach((day) => {
+          const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+          const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day + 1);
+          const filteredTransacoes = filterTransacoes(transacoes, startDate, endDate);
+
+          // Soma as entradas e saídas no dia
+          filteredTransacoes.forEach((t) => {
+            if (t.tipo === 'entrada') {
+              dataEntradas[day - 1] += t.valor;
+            } else if (t.tipo === 'saida') {
+              dataSaidas[day - 1] += t.valor;
+            }
+          });
         });
-      });
+      }
     });
-  
+
     return {
       labels,
       datasets: [
@@ -91,7 +93,7 @@ export function InputsOutputs() {
         },
       ],
     };
-  };  
+  };
 
   // Configurações do gráfico
   const options = {

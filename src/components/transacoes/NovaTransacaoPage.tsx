@@ -4,7 +4,7 @@ import { NovaTransacaoForm } from "./NovaTransacaoForm"
 export function NovaTransacaoPage() {
     return (
         <div className="mt-4 flex flex-col gap-10">
-            <Title title="Transações" />
+            <Title title="Transações > Nova Transação" />
             <strong className="text-2xl">Nova Transação</strong>
             <NovaTransacaoForm />
         </div>

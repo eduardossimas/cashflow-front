@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter, faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { FiltrosTransacaoBanco } from './FiltrosTransacaoBanco';
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import axios from 'axios';
 
@@ -27,8 +26,6 @@ interface ListaTransacaoBancoProps {
 
 export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) {
     const [transactions, setTransactions] = useState<Transacao[]>([]);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filterOpen, setFilterOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10; // Número de itens por página
 
@@ -74,33 +71,8 @@ export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) 
     };
 
     return (
-        <div className="p-4 bg-white rounded-lg shadow-lg w-full">
-            <div className="flex items-center justify-between mb-4">
-                <div className="relative">
-                    <FontAwesomeIcon icon={faSearch} className="absolute left-3 top-3 text-gray-400" />
-                    <input
-                        type="text"
-                        className="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                        placeholder="Pesquisa"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                </div>
-                <button
-                    className="ml-4 bg-orange-500 text-white p-2 rounded-lg focus:outline-none hover:bg-orange-600"
-                    onClick={() => setFilterOpen(!filterOpen)}
-                >
-                    <FontAwesomeIcon icon={faFilter} />
-                </button>
-            </div>
-
-            {filterOpen && (
-                <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                    <FiltrosTransacaoBanco />
-                </div>
-            )}
-
-            <div className="overflow-x-auto">
+        <div className="p-4 bg-white rounded-lg shadow-lg w-full flex flex-col">
+            <div className="flex-grow overflow-x-auto">
                 <table className="min-w-full bg-white text-sm">
                     <thead className="bg-gray-200 text-gray-600">
                         <tr>
@@ -122,7 +94,7 @@ export function ListaTransacaoBanco({ selectedBank }: ListaTransacaoBancoProps) 
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={5} className="py-3 px-6 text-center">Nenhuma transação encontrada</td>
+                                <td colSpan={4} className="py-3 px-6 text-center">Nenhuma transação encontrada</td>
                             </tr>
                         )}
                     </tbody>

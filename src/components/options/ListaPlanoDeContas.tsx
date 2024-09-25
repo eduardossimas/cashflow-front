@@ -36,7 +36,6 @@ export function ListaPlanoDeContas() {
             <table className="bg-white w-full">
                 <thead className="bg-gray-200 text-gray-600">
                     <tr>
-                        <th className="py-3 px-6 text-left">Descrição</th>
                         <th className="py-3 px-6 text-left">Categoria</th>
                         <th className="py-3 px-6 text-left">Faixa no DRE</th>
                         <th className="py-3 px-6 text-center">Ações</th>
@@ -46,7 +45,6 @@ export function ListaPlanoDeContas() {
                     {planosDeContas.length > 0 ? (
                         planosDeContas.map((plano: any) => (
                             <tr key={plano.id} className="border-b">
-                                <td className="py-3 px-6">{plano.nome}</td>
                                 <td className="py-3 px-6">{plano.categoria}</td>
                                 <td className="py-3 px-6">{plano.faixa}</td>
                                 <td className="py-3 px-6 text-center">

@@ -1,5 +1,5 @@
 // src/context/AuthContext.tsx
-import React, { createContext, useState, ReactNode } from 'react';
+import React, { createContext, useState, useEffect, ReactNode } from 'react';
 
 interface AuthContextType {
   user: string | null;
@@ -29,6 +29,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     localStorage.removeItem('user');
   };
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('user');
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, login, logout }}>
