@@ -6,8 +6,83 @@
       "nome": "Nubank",
       "dataInicio": "2024-01-01",
       "saldoInicio": 100,
-      "saldo": 100,
-      "transacoes": []
+      "saldo": 900,
+      "transacoes": [
+        {
+          "id": 1727389288093,
+          "data": "2024-09-26",
+          "descricao": "Receitas com Vendas",
+          "categoria": "Receita com Vendas",
+          "valor": 1000,
+          "tipo": "entrada"
+        },
+        {
+          "id": 1727389322853,
+          "data": "2024-09-26",
+          "descricao": "Salários - Funcionários",
+          "categoria": "Salários",
+          "valor": 200,
+          "tipo": "saida"
+        },
+        {
+          "id": 1727390751393,
+          "data": "2024-09-26",
+          "descricao": "Salários",
+          "categoria": "Salários",
+          "valor": 1000,
+          "tipo": "saida"
+        },
+        {
+          "id": 1727390869041,
+          "data": "2024-09-26",
+          "descricao": "Receita com Vendas",
+          "categoria": "Receita com Vendas",
+          "valor": 1000,
+          "tipo": "entrada"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "nome": "Stone",
+      "dataInicio": "2024-01-01",
+      "saldoInicio": 0,
+      "saldo": 1000,
+      "transacoes": [
+        {
+          "id": 1727390477987,
+          "data": "2024-09-26",
+          "descricao": "Receita com Vendas",
+          "categoria": "Receita com Vendas",
+          "valor": 1000,
+          "tipo": "entrada"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "nome": "Banco do Brasil",
+      "dataInicio": "2024-01-01",
+      "saldoInicio": 0,
+      "saldo": 800,
+      "transacoes": [
+        {
+          "id": 1727393431961,
+          "data": "2024-09-26",
+          "descricao": "Receita com Vendas",
+          "categoria": "Receita com Vendas",
+          "valor": 1000,
+          "tipo": "entrada"
+        },
+        {
+          "id": 1727393484930,
+          "data": "2024-09-26",
+          "descricao": "Salários",
+          "categoria": "Salários",
+          "valor": 200,
+          "tipo": "saida"
+        }
+      ]
     }
   ],
   "planoDeContas": [
@@ -22,6 +97,12 @@
       "nome": "Salários",
       "categoria": "Salários",
       "faixa": "Custos Fixos"
+    },
+    {
+      "id": "3",
+      "nome": "Investimentos",
+      "categoria": "Investimentos",
+      "faixa": "DespesasFinanceiras"
     }
   ]
 }

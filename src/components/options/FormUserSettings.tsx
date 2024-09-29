@@ -44,7 +44,7 @@ export function FormUserSettings() {
                         <input
                             type="text"
                             className="border border-gray-300 p-2"
-                            value={"Admin"}
+                            value={"Andre Martins"}
                         />
                     </label>
                     <label className="flex flex-col">
@@ -52,7 +52,7 @@ export function FormUserSettings() {
                         <input
                             type="email"
                             className="border border-gray-300 p-2"
-                            value={"admin@cashflow.com"}
+                            value={"andremartins2003@gmail.com"}
                         />
                     </label>
                 </form>

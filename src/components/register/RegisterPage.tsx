@@ -3,9 +3,10 @@ import CashFlowPro from '../../assets/CashFlowPro.svg';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 
-export function LoginPage() {
+export function RegisterPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [error, setError] = useState('');
   const authContext = useContext(AuthContext); // Usando o contexto de autenticação
   if (!authContext) {
@@ -37,7 +38,18 @@ export function LoginPage() {
           </div>
         )}
         <div className='mb-4'>
-          <label htmlFor='username' className='block mb-1'>Usuário</label>
+          <label htmlFor='username' className='block mb-1'>Nome</label>
+          <input
+            type='text'
+            id='username'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className='border rounded w-full p-2'
+          />
+        </div>
+        <div className='mb-4'>
+          <label htmlFor='username' className='block mb-1'>Email</label>
           <input
             type='text'
             id='username'
@@ -60,12 +72,12 @@ export function LoginPage() {
         </div>
         <div className='grid gap-y-4'>
         <button type='submit' className='bg-orange-500 text-white rounded p-2 w-full hover:bg-orange-600'>
-          Entrar
+          Cadastrar
         </button>
-        <a href="/register" className='border text-center text-orange-400 rounded p-2 w-full hover:bg-slate-100'>Não possuo conta</a>
+        <a href="/login" className='border text-center text-orange-400 rounded p-2 w-full hover:bg-slate-100'>Já possuo conta</a>
       
         </div>
-      </form>
+        </form>
     </div>
   );
 }

@@ -12,24 +12,29 @@ import { NovaCategoriaPag } from './components/options/NovaCategoriaPag';
 import { LoginPage } from './components/login/LoginPage';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './context/ProtectedRoute';
+import { RegisterPage } from './components/register/RegisterPage';
+import { useEffect, useState } from 'react';
 
 function AppContent() {
-  const location = useLocation(); // Hook para obter a localização atual
+  const location = useLocation();
+  const [currentRoute, setCurrentRoute] = useState("/login") // Hook para obter a localização atual
 
-  const isLoginPage = location.pathname === '/login';
+  useEffect(() => {
+    const locationPath = location.pathname;
+    setCurrentRoute(locationPath);
+  })
 
   return (
-    <div className={`bg-gray-100 lg:w-full min-h-screen ${isLoginPage ? '' : 'p-5'}`}>
+    <div className={`bg-gray-100 lg:w-full min-h-screen ${(currentRoute == "/login" || currentRoute == "/register") ? '' : 'p-5'}`}>
       <div className={`lg:flex lg:flex-row`}>
-        {!isLoginPage && (
-          <div className='lg:fixed'>
-            <Header />
-          </div>
-        )}
-        <main className={`lg:w-full lg:h-full overflow-x-auto ${isLoginPage ? '' : 'lg:ml-64'}`}>
+        <div className={`${(currentRoute == "/login" || currentRoute == "/register") ? 'hidden' : 'fixed'}`}>
+          <Header />
+        </div>
+        <main className={`lg:w-full lg:h-full overflow-x-auto ${(currentRoute == "/login" || currentRoute == "/register") ? '' : 'lg:ml-64'}`}>
           <AuthProvider>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
               <Route element={<ProtectedRoute />}>
                 <Route path="/" element={<DashboardPage />} />
                 <Route path="/transactions" element={<TransactionsPage />} />
